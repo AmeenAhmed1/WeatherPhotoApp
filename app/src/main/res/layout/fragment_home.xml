@@ -5,10 +5,18 @@
     android:layout_height="match_parent"
     android:padding="@dimen/dp_16">
 
+    <include
+        android:id="@+id/current_location_data"
+        layout="@layout/current_location_data_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageView
         android:id="@+id/image_camera"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_16"
         android:layout_marginBottom="@dimen/dp_16"
         android:contentDescription="@string/contentdescription"
         android:scaleType="center"
@@ -16,7 +24,20 @@
         app:layout_constraintBottom_toTopOf="@id/history_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/current_location_data" />
+
+
+    <include
+        android:id="@+id/current_location_image_data"
+        layout="@layout/overlay_weather_data_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/image_camera"
+        app:layout_constraintEnd_toEndOf="@id/image_camera"
+        app:layout_constraintStart_toStartOf="@id/image_camera"
+        app:layout_constraintTop_toTopOf="@id/image_camera"
+        app:layout_constraintVertical_bias="1" />
 
     <TextView
         android:id="@+id/camera_hint_text"

@@ -82,4 +82,7 @@ dependencies {
     // Image Picker
     implementation 'com.github.dhaval2404:imagepicker:2.1'
 
+    // Location Services
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
+
 }
