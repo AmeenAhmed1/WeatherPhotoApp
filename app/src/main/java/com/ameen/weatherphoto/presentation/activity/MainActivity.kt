@@ -1,7 +1,8 @@
-package com.ameen.weatherphoto
+package com.ameen.weatherphoto.presentation.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.ameen.weatherphoto.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

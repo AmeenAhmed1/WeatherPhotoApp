@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">WeatherPhoto</string>
+    <string name="contentdescription">ContentDescription</string>
+    <string name="camera_hint">Click here to take a photo with your camera.</string>
+    <string name="history">History</string>
 </resources>
