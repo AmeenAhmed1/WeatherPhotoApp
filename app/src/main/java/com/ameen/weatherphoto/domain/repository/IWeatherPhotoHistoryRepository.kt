@@ -1,8 +1,8 @@
 package com.ameen.weatherphoto.domain.repository
 
-import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
+import com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData
 
 interface IWeatherPhotoHistoryRepository {
-    suspend fun insertNewCapturedPhotoIntoHistory(photo: PhotoDb): Long
-    suspend fun getAllCapturedPhotoFromHistory(): List<PhotoDb>
+    suspend fun insertNewCapturedPhotoIntoHistory(newPhoto: WeatherPhotoHistoryData): Long
+    suspend fun getAllCapturedPhotoFromHistory(): List<WeatherPhotoHistoryData>
 }

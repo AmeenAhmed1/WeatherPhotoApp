@@ -1,7 +1,7 @@
 package com.ameen.weatherphoto.presentation.listener
 
-import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
+import com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData
 
 interface WeatherHistoryItemClickListener {
-    fun onWeatherHistoryItemClicked(selectedPhoto: PhotoDb)
+    fun onWeatherHistoryItemClicked(selectedPhoto: WeatherPhotoHistoryData)
 }

@@ -12,17 +12,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.ameen.weatherphoto.core.ApiEndPoints
-import com.ameen.weatherphoto.core.ResultWrapper
-import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
-import com.ameen.weatherphoto.data.datasource.remote.model.WeatherResponse
+import com.ameen.weatherphoto.core.util.ApiEndPoints
+import com.ameen.weatherphoto.core.util.ImageCameraUtils
+import com.ameen.weatherphoto.core.util.LocationManager
+import com.ameen.weatherphoto.core.util.LocationManagerInteraction
+import com.ameen.weatherphoto.core.wrapper.ResultWrapper
 import com.ameen.weatherphoto.databinding.FragmentHomeBinding
+import com.ameen.weatherphoto.domain.model.WeatherData
+import com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData
 import com.ameen.weatherphoto.presentation.extentions.hide
 import com.ameen.weatherphoto.presentation.extentions.loadImage
 import com.ameen.weatherphoto.presentation.extentions.show
-import com.ameen.weatherphoto.presentation.util.ImageCameraUtils
-import com.ameen.weatherphoto.presentation.util.LocationManager
-import com.ameen.weatherphoto.presentation.util.LocationManagerInteraction
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import java.io.File
@@ -35,7 +35,7 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
     private lateinit var imageUtil: ImageCameraUtils
     private lateinit var file: File
 
-    private lateinit var weatherData: WeatherResponse
+    private lateinit var weatherData: WeatherData
 
     private val locationManager: LocationManager by lazy {
         LocationManager(this, this)
@@ -71,10 +71,10 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
 
 
             // Weather Data To Show overlay.
-            val city = "${weatherData.name} - ${weatherData.sys.country}"
-            val weatherCondition = weatherData.weather.first().main
+            val city = weatherData.weatherCity
+            val weatherCondition = weatherData.weatherCondition
             val weatherConditionIcon =
-                "${ApiEndPoints.CURRENT_WEATHER_CONDITION_ICON_ENDPOINT}${weatherData.weather.first().icon}.png"
+                "${ApiEndPoints.CURRENT_WEATHER_CONDITION_ICON_ENDPOINT}${weatherData.weatherConditionIcon}.png"
 
             binding.currentLocationImageData.cityTextView.text = city
             binding.currentLocationImageData.weatherTextView.text = weatherCondition
@@ -86,7 +86,7 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
 
             // Automatically save captured Image into History.
             saveCapturedImageWithWeatherDataIntoHistory(
-                PhotoDb(
+                WeatherPhotoHistoryData(
                     city = city,
                     weatherCondition = weatherCondition,
                     weatherConditionIcon = weatherConditionIcon,
@@ -123,7 +123,7 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
                         Log.e(TAG, "Success: $it")
                         weatherData = it.value
                         binding.currentLocationData.locationAddress.text =
-                            "${binding.currentLocationData.locationAddress.text} - ${it.value.weather[0].description}"
+                            "${binding.currentLocationData.locationAddress.text} - ${it.value.weatherCondition}"
 
                     }
 
@@ -136,8 +136,8 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
 
     }
 
-    private fun saveCapturedImageWithWeatherDataIntoHistory(photo: PhotoDb) {
-        val saved = homeViewModel.insertCapturedWeatherPhoto(photo)
+    private fun saveCapturedImageWithWeatherDataIntoHistory(newPhoto: WeatherPhotoHistoryData) {
+        val saved = homeViewModel.insertCapturedWeatherPhoto(newPhoto)
         Log.e(TAG, "saveCapturedImageWithWeatherDataIntoHistory: $saved")
     }
 

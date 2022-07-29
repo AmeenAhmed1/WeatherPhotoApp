@@ -10,8 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
 import com.ameen.weatherphoto.databinding.FragmentHistoryBinding
+import com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData
 import com.ameen.weatherphoto.presentation.adapter.WeatherPhotoHistoryAdapter
 import com.ameen.weatherphoto.presentation.listener.WeatherHistoryItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,7 +69,7 @@ class HistoryFragment : Fragment(), WeatherHistoryItemClickListener {
     }
 
     private val TAG = "HistoryFragment"
-    override fun onWeatherHistoryItemClicked(selectedPhoto: PhotoDb) {
+    override fun onWeatherHistoryItemClicked(selectedPhoto: WeatherPhotoHistoryData) {
         Log.e(TAG, "onWeatherHistoryItemClicked: $selectedPhoto")
         val action = HistoryFragmentDirections.actionHistoryFragmentToDetailsFragment(selectedPhoto)
         findNavController().navigate(action)

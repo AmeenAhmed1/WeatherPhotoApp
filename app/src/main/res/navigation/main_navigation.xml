@@ -30,6 +30,6 @@
         tools:layout="@layout/fragment_details" >
         <argument
             android:name="selectedImage"
-            app:argType="com.ameen.weatherphoto.data.datasource.local.model.PhotoDb" />
+            app:argType="com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData" />
     </fragment>
 </navigation>

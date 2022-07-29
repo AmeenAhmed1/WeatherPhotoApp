@@ -1,4 +1,4 @@
-package com.ameen.weatherphoto.core
+package com.ameen.weatherphoto.core.util
 
 
 const val BASE_URL = "https://api.openweathermap.org/"

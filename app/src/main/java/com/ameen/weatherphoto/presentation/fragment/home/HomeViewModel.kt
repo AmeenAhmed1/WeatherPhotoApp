@@ -2,9 +2,9 @@ package com.ameen.weatherphoto.presentation.fragment.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ameen.weatherphoto.core.ResultWrapper
-import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
-import com.ameen.weatherphoto.data.datasource.remote.model.WeatherResponse
+import com.ameen.weatherphoto.core.wrapper.ResultWrapper
+import com.ameen.weatherphoto.domain.model.WeatherData
+import com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData
 import com.ameen.weatherphoto.domain.usecase.GetCurrentLocationWeatherUseCase
 import com.ameen.weatherphoto.domain.usecase.InsertCapturedWeatherPhotoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
     var currentLocationLatitude: Double = 0.0
     var currentLocationLongitude: Double = 0.0
 
-    private val _currentWeatherData: MutableStateFlow<ResultWrapper<WeatherResponse>> =
+    private val _currentWeatherData: MutableStateFlow<ResultWrapper<WeatherData>> =
         MutableStateFlow(ResultWrapper.Loading)
     val currentWeatherData = _currentWeatherData
 
@@ -38,8 +38,9 @@ class HomeViewModel @Inject constructor(
             }.launchIn(viewModelScope)
 
 
-    fun insertCapturedWeatherPhoto(photo: PhotoDb) = viewModelScope.launch(Dispatchers.IO) {
-        insertCapturedWeatherPhotoUseCase.execute(photo)
-    }
+    fun insertCapturedWeatherPhoto(newPhoto: WeatherPhotoHistoryData) =
+        viewModelScope.launch(Dispatchers.IO) {
+            insertCapturedWeatherPhotoUseCase.execute(newPhoto)
+        }
 
 }

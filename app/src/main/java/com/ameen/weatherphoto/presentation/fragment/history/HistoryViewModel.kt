@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
+import com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData
 import com.ameen.weatherphoto.domain.usecase.GetWeatherPhotoHistoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +18,8 @@ class HistoryViewModel @Inject constructor(
 
     private val TAG = "HistoryViewModel"
 
-    private val _historyWeatherData: MutableLiveData<List<PhotoDb>> = MutableLiveData()
+    private val _historyWeatherData: MutableLiveData<List<WeatherPhotoHistoryData>> =
+        MutableLiveData()
     val historyWeatherData = _historyWeatherData
 
     fun getAllWeatherPhotoHistory() = viewModelScope.launch(Dispatchers.IO) {

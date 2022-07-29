@@ -1,4 +1,4 @@
-package com.ameen.weatherphoto.presentation.util
+package com.ameen.weatherphoto.core.util
 
 import android.Manifest
 import android.app.Activity
