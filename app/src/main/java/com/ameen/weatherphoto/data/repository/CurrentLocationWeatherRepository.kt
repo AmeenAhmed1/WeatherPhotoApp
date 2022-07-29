@@ -2,8 +2,8 @@ package com.ameen.weatherphoto.data.repository
 
 import com.ameen.weatherphoto.core.API_KEY
 import com.ameen.weatherphoto.core.ResultWrapper
-import com.ameen.weatherphoto.data.datasource.WeatherApi
-import com.ameen.weatherphoto.data.model.WeatherResponse
+import com.ameen.weatherphoto.data.datasource.remote.WeatherApi
+import com.ameen.weatherphoto.data.datasource.remote.model.WeatherResponse
 import com.ameen.weatherphoto.domain.repository.ICurrentLocationWeatherRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

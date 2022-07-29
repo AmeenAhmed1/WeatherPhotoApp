@@ -1,8 +1,11 @@
 package com.ameen.weatherphoto.di
 
-import com.ameen.weatherphoto.data.datasource.WeatherApi
+import com.ameen.weatherphoto.data.datasource.local.WeatherAppDataBase
+import com.ameen.weatherphoto.data.datasource.remote.WeatherApi
 import com.ameen.weatherphoto.data.repository.CurrentLocationWeatherRepository
+import com.ameen.weatherphoto.data.repository.WeatherPhotoHistoryRepository
 import com.ameen.weatherphoto.domain.repository.ICurrentLocationWeatherRepository
+import com.ameen.weatherphoto.domain.repository.IWeatherPhotoHistoryRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,4 +21,9 @@ object RepositoryModule {
     fun providesCurrentLocationWeatherRepository(api: WeatherApi) =
         CurrentLocationWeatherRepository(api) as ICurrentLocationWeatherRepository
 
+
+    @Singleton
+    @Provides
+    fun providesWeatherPhotoHistoryRepository(database: WeatherAppDataBase) =
+        WeatherPhotoHistoryRepository(database.weatherPhotoDao) as IWeatherPhotoHistoryRepository
 }

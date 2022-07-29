@@ -3,7 +3,7 @@ package com.ameen.weatherphoto.di
 
 import com.ameen.weatherphoto.BuildConfig
 import com.ameen.weatherphoto.core.BASE_URL
-import com.ameen.weatherphoto.data.datasource.WeatherApi
+import com.ameen.weatherphoto.data.datasource.remote.WeatherApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
 import dagger.Provides

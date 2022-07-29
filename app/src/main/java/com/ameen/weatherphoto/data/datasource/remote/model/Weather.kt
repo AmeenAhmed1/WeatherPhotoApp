@@ -1,4 +1,4 @@
-package com.ameen.weatherphoto.data.model
+package com.ameen.weatherphoto.data.datasource.remote.model
 
 data class Weather(
     val description: String,

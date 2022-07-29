@@ -1,4 +1,4 @@
-package com.ameen.weatherphoto.presentation.fragment
+package com.ameen.weatherphoto.presentation.fragment.home
 
 import android.location.Location
 import android.net.Uri
@@ -11,9 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.ameen.weatherphoto.core.ApiEndPoints
 import com.ameen.weatherphoto.core.ResultWrapper
-import com.ameen.weatherphoto.data.model.WeatherResponse
+import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
+import com.ameen.weatherphoto.data.datasource.remote.model.WeatherResponse
 import com.ameen.weatherphoto.databinding.FragmentHomeBinding
 import com.ameen.weatherphoto.presentation.extentions.hide
 import com.ameen.weatherphoto.presentation.extentions.loadImage
@@ -53,6 +55,7 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
 
         getCurrentLocation()
         initObservers()
+        initClicks()
         openCameraHandler()
 
         return binding.root
@@ -67,15 +70,30 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
             binding.cameraHintText.hide()
 
 
-            binding.currentLocationImageData.cityTextView.text =
-                "${weatherData.name} - ${weatherData.sys.country}"
-            binding.currentLocationImageData.weatherTextView.text = weatherData.weather[0].main
-            binding.currentLocationImageData.weatherIcon.loadImage(
-                "${ApiEndPoints.CURRENT_WEATHER_CONDITION_ICON_ENDPOINT}${weatherData.weather[0].icon}.png"
-            )
+            // Weather Data To Show overlay.
+            val city = "${weatherData.name} - ${weatherData.sys.country}"
+            val weatherCondition = weatherData.weather.first().main
+            val weatherConditionIcon =
+                "${ApiEndPoints.CURRENT_WEATHER_CONDITION_ICON_ENDPOINT}${weatherData.weather.first().icon}.png"
+
+            binding.currentLocationImageData.cityTextView.text = city
+            binding.currentLocationImageData.weatherTextView.text = weatherCondition
+            binding.currentLocationImageData.weatherIcon.loadImage(weatherConditionIcon)
             binding.currentLocationImageData.root.show()
 
+            //Show Captured Image from Camera.
             binding.imageCamera.loadImage(it)
+
+            // Automatically save captured Image into History.
+            saveCapturedImageWithWeatherDataIntoHistory(
+                PhotoDb(
+                    city = city,
+                    weatherCondition = weatherCondition,
+                    weatherConditionIcon = weatherConditionIcon,
+                    capturedImage = it.path ?: ""
+                )
+            )
+
         }
 
         binding.imageCamera.setOnClickListener {
@@ -118,6 +136,18 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
 
     }
 
+    private fun saveCapturedImageWithWeatherDataIntoHistory(photo: PhotoDb) {
+        val saved = homeViewModel.insertCapturedWeatherPhoto(photo)
+        Log.e(TAG, "saveCapturedImageWithWeatherDataIntoHistory: $saved")
+    }
+
+    private fun initClicks() {
+        binding.historyButton.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToHistoryFragment()
+            findNavController().navigate(action)
+        }
+    }
+
     override fun onLocationRetrieved(location: Location?, address: String) {
         if (location != null) {
             Log.e(TAG, "onLocationRetrieved: ${location.latitude}, ${location.longitude}")
@@ -131,6 +161,13 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
             getCurrentLocationWeather()
             locationManager.stopLocationUpdates()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        if (!this::weatherData.isInitialized)
+            getCurrentLocation()
     }
 
     override fun onStop() {
