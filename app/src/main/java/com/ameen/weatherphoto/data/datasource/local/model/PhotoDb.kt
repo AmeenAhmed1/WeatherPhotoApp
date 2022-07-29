@@ -2,6 +2,7 @@ package com.ameen.weatherphoto.data.datasource.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "Photos")
 data class PhotoDb(
@@ -10,4 +11,4 @@ data class PhotoDb(
     val weatherCondition: String,
     val weatherConditionIcon: String,
     val capturedImage: String
-)
+) : Serializable
