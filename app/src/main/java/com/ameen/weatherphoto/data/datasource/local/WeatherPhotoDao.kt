@@ -1,6 +1,5 @@
 package com.ameen.weatherphoto.data.datasource.local
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -11,7 +10,7 @@ import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
 interface WeatherPhotoDao {
 
     @Query("SELECT * from Photos")
-    fun getAllPhotos(): LiveData<List<PhotoDb>>
+    suspend fun getAllPhotos(): List<PhotoDb>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNewPhoto(photoDb: PhotoDb): Long

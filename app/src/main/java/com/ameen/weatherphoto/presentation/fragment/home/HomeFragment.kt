@@ -1,4 +1,4 @@
-package com.ameen.weatherphoto.presentation.fragment
+package com.ameen.weatherphoto.presentation.fragment.home
 
 import android.location.Location
 import android.net.Uri
@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.ameen.weatherphoto.core.ApiEndPoints
 import com.ameen.weatherphoto.core.ResultWrapper
 import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
@@ -54,6 +55,7 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
 
         getCurrentLocation()
         initObservers()
+        initClicks()
         openCameraHandler()
 
         return binding.root
@@ -137,6 +139,13 @@ class HomeFragment : Fragment(), LocationManagerInteraction {
     private fun saveCapturedImageWithWeatherDataIntoHistory(photo: PhotoDb) {
         val saved = homeViewModel.insertCapturedWeatherPhoto(photo)
         Log.e(TAG, "saveCapturedImageWithWeatherDataIntoHistory: $saved")
+    }
+
+    private fun initClicks() {
+        binding.historyButton.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToHistoryFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onLocationRetrieved(location: Location?, address: String) {

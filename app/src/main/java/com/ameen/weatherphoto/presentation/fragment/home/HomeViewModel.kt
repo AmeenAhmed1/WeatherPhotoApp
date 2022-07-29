@@ -1,4 +1,4 @@
-package com.ameen.weatherphoto.presentation.fragment
+package com.ameen.weatherphoto.presentation.fragment.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

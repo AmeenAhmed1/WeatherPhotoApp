@@ -1,0 +1,78 @@
+package com.ameen.weatherphoto.presentation.fragment.histoey
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.ameen.weatherphoto.databinding.FragmentHistoryBinding
+import com.ameen.weatherphoto.presentation.adapter.WeatherPhotoHistoryAdapter
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class HistoryFragment : Fragment() {
+
+    //@Inject
+    //lateinit var database: WeatherAppDataBase
+
+    private lateinit var recyclerAdapter: WeatherPhotoHistoryAdapter
+
+    private val historyViewModel: HistoryViewModel by viewModels()
+
+    private val binding by lazy(LazyThreadSafetyMode.NONE) {
+        FragmentHistoryBinding.inflate(layoutInflater)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        initRecycler()
+        return binding.root
+    }
+
+    private fun initRecycler() {
+
+        if (!this::recyclerAdapter.isInitialized) {
+            recyclerAdapter = WeatherPhotoHistoryAdapter()
+
+            binding.historyImagesRecycler.apply {
+                adapter = recyclerAdapter
+                layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                hasFixedSize()
+            }
+        }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        getHistoryData()
+    }
+
+    private fun getHistoryData() {
+
+        historyViewModel.getAllWeatherPhotoHistory()
+        historyViewModel.historyWeatherData.observe(viewLifecycleOwner, Observer {
+            recyclerAdapter.diff.submitList(it)
+        })
+
+//        lifecycleScope.launch {
+//            withContext(Dispatchers.IO) {
+//                val data = database.weatherPhotoDao.getAllPhotos()
+//
+//                withContext(Dispatchers.Main) {
+//                    recyclerAdapter.diff.submitList(data)
+//                }
+//            }
+//        }
+
+    }
+
+
+}

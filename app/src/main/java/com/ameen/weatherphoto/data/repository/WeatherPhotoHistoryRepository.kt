@@ -1,6 +1,5 @@
 package com.ameen.weatherphoto.data.repository
 
-import androidx.lifecycle.LiveData
 import com.ameen.weatherphoto.data.datasource.local.WeatherPhotoDao
 import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
 import com.ameen.weatherphoto.domain.repository.IWeatherPhotoHistoryRepository
@@ -13,7 +12,6 @@ class WeatherPhotoHistoryRepository @Inject constructor(
     override suspend fun insertNewCapturedPhotoIntoHistory(photo: PhotoDb): Long =
         weatherPhotoDao.insertNewPhoto(photo)
 
-//    override fun getAllCapturedPhotoFromHistory(): LiveData<List<PhotoDb>> {
-//        return emptyList<List<PhotoDb>>()
-//    }
+    override suspend fun getAllCapturedPhotoFromHistory(): List<PhotoDb> =
+        weatherPhotoDao.getAllPhotos()
 }
