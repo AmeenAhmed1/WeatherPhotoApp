@@ -1,7 +1,7 @@
 package com.ameen.weatherphoto.domain.usecase
 
 import com.ameen.weatherphoto.core.ResultWrapper
-import com.ameen.weatherphoto.data.model.WeatherResponse
+import com.ameen.weatherphoto.data.datasource.remote.model.WeatherResponse
 import com.ameen.weatherphoto.domain.repository.ICurrentLocationWeatherRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

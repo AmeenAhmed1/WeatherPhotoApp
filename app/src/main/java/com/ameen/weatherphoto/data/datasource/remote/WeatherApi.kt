@@ -1,7 +1,7 @@
-package com.ameen.weatherphoto.data.datasource
+package com.ameen.weatherphoto.data.datasource.remote
 
 import com.ameen.weatherphoto.core.ApiEndPoints
-import com.ameen.weatherphoto.data.model.WeatherResponse
+import com.ameen.weatherphoto.data.datasource.remote.model.WeatherResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
