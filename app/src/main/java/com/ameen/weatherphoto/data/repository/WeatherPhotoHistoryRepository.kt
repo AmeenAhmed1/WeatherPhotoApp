@@ -1,6 +1,7 @@
 package com.ameen.weatherphoto.data.repository
 
 import com.ameen.weatherphoto.data.datasource.local.WeatherPhotoDao
+import com.ameen.weatherphoto.data.mapper.toDomainWeatherHistoryData
 import com.ameen.weatherphoto.data.mapper.toRoomWeatherHistoryData
 import com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData
 import com.ameen.weatherphoto.domain.repository.IWeatherPhotoHistoryRepository
@@ -14,5 +15,7 @@ class WeatherPhotoHistoryRepository @Inject constructor(
         weatherPhotoDao.insertNewPhoto(newPhoto.toRoomWeatherHistoryData())
 
     override suspend fun getAllCapturedPhotoFromHistory(): List<WeatherPhotoHistoryData> =
-        weatherPhotoDao.getAllPhotos()
+        weatherPhotoDao.getAllPhotos().map {
+            it.toDomainWeatherHistoryData()
+        }
 }

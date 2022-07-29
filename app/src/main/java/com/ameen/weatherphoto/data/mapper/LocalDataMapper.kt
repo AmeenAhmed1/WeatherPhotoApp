@@ -1,9 +1,9 @@
 package com.ameen.weatherphoto.data.mapper
 
-import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
+import com.ameen.weatherphoto.data.datasource.local.model.WeatherPhotoEntity
 import com.ameen.weatherphoto.domain.model.WeatherPhotoHistoryData
 
-fun PhotoDb.toDomainWeatherHistoryData() =
+fun WeatherPhotoEntity.toDomainWeatherHistoryData() =
     WeatherPhotoHistoryData(
         city = this.city,
         weatherCondition = this.weatherCondition,
@@ -13,7 +13,7 @@ fun PhotoDb.toDomainWeatherHistoryData() =
 
 
 fun WeatherPhotoHistoryData.toRoomWeatherHistoryData() =
-    PhotoDb(
+    WeatherPhotoEntity(
         city = this.city,
         weatherCondition = this.weatherCondition,
         weatherConditionIcon = this.weatherConditionIcon,
