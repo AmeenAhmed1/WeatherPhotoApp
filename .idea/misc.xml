@@ -7,6 +7,7 @@
         <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.26992753623188404" />
         <entry key="app/src/main/res/layout/current_location_data_layout.xml" value="0.24047044394672779" />
+        <entry key="app/src/main/res/layout/fragment_details.xml" value="0.22788711768993436" />
         <entry key="app/src/main/res/layout/fragment_history.xml" value="0.2985205608865489" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25869903564453123" />
         <entry key="app/src/main/res/layout/item_history.xml" value="0.24158696713654887" />

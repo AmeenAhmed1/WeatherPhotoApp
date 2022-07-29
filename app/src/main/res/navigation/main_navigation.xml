@@ -16,7 +16,20 @@
     </fragment>
     <fragment
         android:id="@+id/historyFragment"
-        android:name="com.ameen.weatherphoto.presentation.fragment.histoey.HistoryFragment"
+        android:name="com.ameen.weatherphoto.presentation.fragment.history.HistoryFragment"
         android:label="HistoryFragment"
-        tools:layout="@layout/fragment_history" />
+        tools:layout="@layout/fragment_history">
+        <action
+            android:id="@+id/action_historyFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.ameen.weatherphoto.presentation.fragment.details.DetailsFragment"
+        android:label="DetailsFragment"
+        tools:layout="@layout/fragment_details" >
+        <argument
+            android:name="selectedImage"
+            app:argType="com.ameen.weatherphoto.data.datasource.local.model.PhotoDb" />
+    </fragment>
 </navigation>

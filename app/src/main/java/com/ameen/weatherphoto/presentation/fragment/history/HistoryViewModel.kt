@@ -1,4 +1,4 @@
-package com.ameen.weatherphoto.presentation.fragment.histoey
+package com.ameen.weatherphoto.presentation.fragment.history
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

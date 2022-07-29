@@ -1,19 +1,23 @@
-package com.ameen.weatherphoto.presentation.fragment.histoey
+package com.ameen.weatherphoto.presentation.fragment.history
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
 import com.ameen.weatherphoto.databinding.FragmentHistoryBinding
 import com.ameen.weatherphoto.presentation.adapter.WeatherPhotoHistoryAdapter
+import com.ameen.weatherphoto.presentation.listener.WeatherHistoryItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HistoryFragment : Fragment() {
+class HistoryFragment : Fragment(), WeatherHistoryItemClickListener {
 
     //@Inject
     //lateinit var database: WeatherAppDataBase
@@ -38,7 +42,7 @@ class HistoryFragment : Fragment() {
     private fun initRecycler() {
 
         if (!this::recyclerAdapter.isInitialized) {
-            recyclerAdapter = WeatherPhotoHistoryAdapter()
+            recyclerAdapter = WeatherPhotoHistoryAdapter(this)
 
             binding.historyImagesRecycler.apply {
                 adapter = recyclerAdapter
@@ -62,16 +66,13 @@ class HistoryFragment : Fragment() {
             recyclerAdapter.diff.submitList(it)
         })
 
-//        lifecycleScope.launch {
-//            withContext(Dispatchers.IO) {
-//                val data = database.weatherPhotoDao.getAllPhotos()
-//
-//                withContext(Dispatchers.Main) {
-//                    recyclerAdapter.diff.submitList(data)
-//                }
-//            }
-//        }
+    }
 
+    private val TAG = "HistoryFragment"
+    override fun onWeatherHistoryItemClicked(selectedPhoto: PhotoDb) {
+        Log.e(TAG, "onWeatherHistoryItemClicked: $selectedPhoto")
+        val action = HistoryFragmentDirections.actionHistoryFragmentToDetailsFragment(selectedPhoto)
+        findNavController().navigate(action)
     }
 
 

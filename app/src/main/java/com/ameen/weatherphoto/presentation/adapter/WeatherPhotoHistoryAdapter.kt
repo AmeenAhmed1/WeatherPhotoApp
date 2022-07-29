@@ -3,14 +3,14 @@ package com.ameen.weatherphoto.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ameen.weatherphoto.data.datasource.local.model.PhotoDb
 import com.ameen.weatherphoto.databinding.ItemHistoryBinding
 import com.ameen.weatherphoto.presentation.extentions.loadImage
+import com.ameen.weatherphoto.presentation.listener.WeatherHistoryItemClickListener
 
-class WeatherPhotoHistoryAdapter() :
-    RecyclerView.Adapter<WeatherPhotoHistoryAdapter.MyViewHolder>() {
+class WeatherPhotoHistoryAdapter(
+    private val weatherPhotoHistoryItemClickListener: WeatherHistoryItemClickListener
+) : RecyclerView.Adapter<WeatherPhotoHistoryAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(
         val binding: ItemHistoryBinding
@@ -18,17 +18,7 @@ class WeatherPhotoHistoryAdapter() :
 
     private var _binding: ItemHistoryBinding? = null
 
-    private val differCallBack = object : DiffUtil.ItemCallback<PhotoDb>() {
-        override fun areItemsTheSame(oldItem: PhotoDb, newItem: PhotoDb): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: PhotoDb, newItem: PhotoDb): Boolean {
-            return oldItem == newItem
-        }
-    }
-
-    val diff = AsyncListDiffer(this, differCallBack)
+    val diff = AsyncListDiffer(this, WeatherPhotoHistoryDiffCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         _binding = ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -45,12 +35,11 @@ class WeatherPhotoHistoryAdapter() :
             weatherTextView.text = currentData.weatherCondition
             weatherIcon.loadImage(currentData.weatherConditionIcon)
         }
+
+        holder.binding.imageHistory.setOnClickListener {
+            weatherPhotoHistoryItemClickListener.onWeatherHistoryItemClicked(currentData)
+        }
     }
 
     override fun getItemCount(): Int = diff.currentList.size
-
-    private var onItemClickListener: ((PhotoDb) -> Unit)? = null
-    fun onItemClicked(listener: (PhotoDb) -> Unit) {
-        onItemClickListener = listener
-    }
 }
